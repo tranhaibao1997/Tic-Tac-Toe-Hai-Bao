@@ -19,7 +19,7 @@ export default function Game() {
   React.useEffect(() => {
     getDataFromAPI();
     return () => {};
-  }, []);
+  }, [getDataFromAPI]);
 
   function giveIndexToHigherComponent(index) {
     if (winner === null) {
