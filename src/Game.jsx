@@ -114,7 +114,7 @@ export default function Game() {
     let data = new URLSearchParams();
 data.append("player", faceBookUser.name);
 data.append("score", 120000);
-const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
+const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
 const response = await fetch(url, {
   method: "POST",
   headers: {
@@ -127,7 +127,7 @@ console.log(response)
 }
 
   async function getDataFromAPI() {
-    let url = "http://ftw-highscores.herokuapp.com/tictactoe-dev";
+    let url = "https://ftw-highscores.herokuapp.com/tictactoe-dev";
     let res = await Axios.get(url);
     console.log(res.data);
     setApiData(res.data.items);
