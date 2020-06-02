@@ -113,7 +113,7 @@ export default function Game() {
     // console.log(res.data)
     let data = new URLSearchParams();
 data.append("player", faceBookUser.name);
-data.append("score", "Bao Tran is here with 1000000 score");
+data.append("score", 120000);
 const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`;
 const response = await fetch(url, {
   method: "POST",
