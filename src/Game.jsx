@@ -108,7 +108,7 @@ export default function Game() {
     <>
        <FacebookLogin
         autoLoad={true}
-        appId="1088597931155576"
+        appId="2614278842122604"
         fields="name,email,picture"
         callback={(resp) => this.responseFacebook(resp)}
       />
