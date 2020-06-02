@@ -8,7 +8,7 @@ export default function Square(props) {
     }
     return (
         <div className="square" onClick={()=>changeValue(props.index)}>
-            {props.square}
+           <div className="XAndO">{props.square===null ? ""  :( props.square==="X" ?<img src="https://media.giphy.com/media/4Zo41lhzKt6iZ8xff9/giphy.gif"></img> :<img src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif"></img>)}</div> 
         </div>
     )
 }
