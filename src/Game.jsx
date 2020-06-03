@@ -150,7 +150,7 @@ console.log(response)
         ""
       ) : (
         <FacebookLogin
-          autoLoad={true}
+          autoLoad={false}
           appId="2614278842122604"
           fields="name,email,picture"
           callback={(resp) => {
