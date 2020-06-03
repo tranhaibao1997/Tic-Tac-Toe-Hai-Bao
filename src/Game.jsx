@@ -6,6 +6,9 @@ import Axios from "axios";
 let current = 0;
 
 export default function Game() {
+  let clicked = 0;
+  let firstClickTime = 0
+  let winClickTime = 0
   let [history, setHistory] = React.useState([
     { history: Array(9).fill(null), player: "" },
   ]);
@@ -18,12 +21,16 @@ export default function Game() {
 
   React.useEffect(() => {
     getDataFromAPI();
-    return () => {};
+    return () => { };
   }, [getDataFromAPI]);
 
   function giveIndexToHigherComponent(index) {
     if (winner === null) {
+      if (clicked === 0) {
+        firstClickTime=Date.now()
+      }
       current++;
+      clicked++
       let newArray = [...squares];
 
       if (newArray[index] !== null) {
@@ -51,12 +58,14 @@ export default function Game() {
         player: isX,
       };
       setHistory([...array, historyPart]);
+      console.log(Date.now())
 
       //if win
 
       if (calculateWinner(newArray) !== null) {
         alert(`${calculateWinner(newArray)} wonnnnnnnnnn`);
         setWinner(calculateWinner(newArray));
+        winClickTime=Date.now()
         sendDataToAPI()
         return;
       }
@@ -112,27 +121,26 @@ export default function Game() {
     // const res = await Axios.post('http://ftw-highscores.herokuapp.com/tictactoe-dev', data, config)
     // console.log(res.data)
     let data = new URLSearchParams();
-data.append("player", faceBookUser.name);
-data.append("score", 120000);
-const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
-const response = await fetch(url, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: data.toString(),
-  json: true
-  })
-console.log(response)
-}
+    data.append("player", faceBookUser.name);
+    data.append("score", winClickTime-firstClickTime);
+    const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data.toString(),
+      json: true
+    })
+    console.log(response)
+  }
 
   async function getDataFromAPI() {
     let url = "https://ftw-highscores.herokuapp.com/tictactoe-dev";
     let res = await Axios.get(url);
-    console.log(res.data);
     setApiData(res.data.items);
   }
-  console.log(faceBookUser);
+
 
   return (
     <>
@@ -143,21 +151,21 @@ console.log(response)
             hello <span className="fb-name">{faceBookUser.name}</span>
           </h1>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
       {faceBookUser ? (
         ""
       ) : (
-        <FacebookLogin
-          autoLoad={true}
-          appId="2614278842122604"
-          fields="name,email,picture"
-          callback={(resp) => {
-            responseFacebook(resp);
-          }}
-        />
-      )}
+          <FacebookLogin
+            autoLoad={true}
+            appId="2614278842122604"
+            fields="name,email,picture"
+            callback={(resp) => {
+              responseFacebook(resp);
+            }}
+          />
+        )}
 
       <div class="match-section">
         <Board
@@ -168,8 +176,8 @@ console.log(response)
           {winner === null ? (
             <h1>Next Player Is :{isX ? "Dog" : "Cat"}</h1>
           ) : (
-            <h1>The Winner Is:{winner === "X" ? "Dog" : "Cat"}</h1>
-          )}
+              <h1>The Winner Is:{winner === "X" ? "Dog" : "Cat"}</h1>
+            )}
           <div className="btn-section">
             {history.map((elm, index) => {
               return (
@@ -180,13 +188,13 @@ console.log(response)
           <div className="dataFromAPI">
             {apiData
               ? apiData.map((item) => {
-                  return (
-                    <div>
-                      <h5>Player:{item.player}</h5>
-                      <h5>Score:{item.score}</h5>
-                    </div>
-                  );
-                })
+                return (
+                  <div>
+                    <h5>Player:{item.player}</h5>
+                    <h5>Score:{item.score}</h5>
+                  </div>
+                );
+              })
               : ""}
           </div>
         </div>
